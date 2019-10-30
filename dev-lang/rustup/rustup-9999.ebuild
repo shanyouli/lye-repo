@@ -69,8 +69,8 @@ src_install() {
 	doins "${FILESDIR}"/init-rust.sh
 
 	[[ -f /etc/portage/profile/bashrc/rustup.conf ]] || {
-		insinto "/etc/profile/bashrc"
-		newins "${FILESDIR}/rustup.conf"
+		insinto "/etc/portage/profile/bashrc"
+		doins "${FILESDIR}/rustup.conf"
 	}
 
 }
