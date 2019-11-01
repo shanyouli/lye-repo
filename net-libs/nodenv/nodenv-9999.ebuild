@@ -45,4 +45,22 @@ src_install() {
 	exeinto "$PKG_HOME/libexec"
 	doexe libexec/* || die
 	dosym "$PKG_HOME/libexec/$PN" "/usr/bin/$PN"
+
+	insinto "/etc/portage/profile/bashrc"
+	newins "${FILESDIR}/${PN}.conf" ${PN}.conf
+
+}
+
+pkg_postinst() {
+	ewarn "
+You may need to set NODENV_ROOT
+You may need to run 'nodenv install 12.13.0' to install the default, and
+You may need to run 'nodenv global 12.13.0' to set default nodejs version
+"
+	ewarn "
+If the installation requires the use of nodejs compiled program,
+please add the following format to /etc/portage/profile/package.bashrc
+
+  'www-client/firefox nodejs.conf'
+"
 }
