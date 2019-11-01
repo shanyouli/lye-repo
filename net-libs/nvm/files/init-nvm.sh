@@ -1,4 +1,4 @@
 [[ -z ${NVM_DIR} ]] && export NVM_DIR=$HOME/.nvm
-source /usr/share/nvm/nvm.sh
-[[ -f /usr/share/nvm/bash_completion ]] && source /usr/share/nvm/bash_completion
-source /usr/share/nvm/install-nvm-exec
+source /usr/local/share/nvm/nvm.sh
+[[ -f /usr/local/share/nvm/bash_completion ]] && source /usr/local/share/nvm/bash_completion
+source /usr/local/share/nvm/install-nvm-exec

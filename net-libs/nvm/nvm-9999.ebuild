@@ -59,6 +59,22 @@ src_install() {
 	doins "${FILESDIR}"/init-nvm.sh
 	doins "${FILESDIR}"/install-nvm-exec
 
+	insinto "/etc/portage/profile/bashrc"
+	newins "${FILESDIR}/${PN}.conf" ${PN}.conf
+}
+
+pkg_prerm() {
+	echo "
+Don't forget to clean up any lines added to your shell's startup script!
+
+For example, from your .bashrc (or .zshrc etc.), delete the line:
+
+source /usr/share/nvm/init-nvm.sh
+"
+}
+
+pkg_postinst() {
+
 	ewarn "You may need to set 'NVM_DIR'"
 	ewarn "
 You need to source nvm before you can use it. Do one of the following
@@ -72,14 +88,14 @@ activate them (e.g. nvm use 10).
 
 init-nvm.sh is a convenience script which does the following:
 "
-}
+	ewarn "
+You may need to run 'nvm install lts/*' to install nodejs versions, and
+you may need to run 'nvm use lts/*'
+"
+	ewarn "
+If the installation requires the use of nodejs compiled program,
+please add the following format to /etc/portage/profile/package.bashrc
 
-pkg_prerm() {
-	echo "
-Don't forget to clean up any lines added to your shell's startup script!
-
-For example, from your .bashrc (or .zshrc etc.), delete the line:
-
-source /usr/share/nvm/init-nvm.sh
+  'www-client/firefox nodejs.conf'
 "
 }

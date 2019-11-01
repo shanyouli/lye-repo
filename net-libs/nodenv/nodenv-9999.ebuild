@@ -58,8 +58,9 @@ You may need to run 'nodenv install 12.13.0' to install the default, and
 You may need to run 'nodenv global 12.13.0' to set default nodejs version
 "
 	ewarn "
-If the installation requires the use of nodejs compiled program,
-please add the following format to /etc/portage/profile/package.bashrc
+If the installation requires the use of nodejs compiled program, please First
+install nodeenv-aliases and add the following format to
+/etc/portage/profile/package.bashrc
 
   'www-client/firefox nodejs.conf'
 "
