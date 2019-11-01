@@ -13,7 +13,9 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="+bash-completion zsh-completion"
-
+SRC_URI="${SRC_URI}
+		amd64? ( https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init -> rustup_64 )
+		x86? ( https://static.rust-lang.org/rustup/dist/i686-unknown-linux-gnu/rustup-init -> rustup_86 )"
 RDEPEND="!dev-lang/rust
 		 !virtual/cargo
 		 !virtual/rust"
@@ -27,51 +29,56 @@ S="${WORKDIR}"
 
 _binlinks=('cargo' 'rustc' 'rustdoc' 'rust-gdb' 'rust-lldb' 'rls' 'rustfmt' 'cargo-fmt' 'cargo-clippy' 'clippy-driver')
 
-src_compile() {
-	local URL
-	local APACHE_URL="https://github.com/rust-lang/rustup.rs/raw/master/LICENSE-APACHE"
-	local MIT_URL="https://github.com/rust-lang/rustup.rs/raw/master/LICENSE-MIT"
-	use x86 && URL="https://static.rust-lang.org/rustup/dist/i686-unknown-linux-gnu/rustup-init"
-	use amd64 && URL="https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init"
+# src_compile() {
+#	insinto "$WORKDIR"
+#	# bash-completion, zsh-completion, fish-completion
+#	use bash-completion && {
+#		./rustup completions bash > bash_completion || die
+#	}
+#	use zsh-completion && {
+#		./rustup completions zsh > zsh_completion || die
+#	}
+#	command -v fish && {
+#		./rustup completions fish > fish_completion || die
+#	}
+# }
 
-	wget ${URL} -O ${PN} || die
-	chmod +x ${PN} || die
-	# LICENSE
-	wget ${APACHE_URL} -O LICENSE-APACHE || die
-	wget ${MIT_URL} -O LICENSE-MIT || die
-
-	# bash-completion, zsh-completion, fish-completion
-	use bash-completion && {
-		./rustup completions bash > bash_completion || die
-	}
-	use zsh-completion && {
-		./rustup completions zsh > zsh_completion || die
-	}
-	command -v fish && {
-		./rustup completions fish > fish_completion || die
-	}
-}
 
 src_install() {
-	einfo "Start the installation rustup"
-	dobin ${PN} || die
-	for link in "${_binlinks[@]}"; do
-		dosym /usr/bin/rustup "/usr/sbin/${link}" || die
-	done
+	local PREFIX=/usr/local
+	local PKG_HOME=/usr/local/$PN
+	local PKG_BIN="/usr/local/bin/${PN}"
 
-	local RUSTUP_DIRS="/usr/share/rustup"
-	insinto "${RUSTUP_DIRS}"
-	for completion in 'bash_completion' 'zsh_completion' 'fish_completion'; do
+	einfo "Start the installation rustup"
+
+	into "${PREFIX}"
+	dobin "$DISTDIR/$A" || die
+	mv ${ED}/usr/local/bin/$A ${ED}${PKG_BIN} || die
+	for link in "${_binlinks[@]}"; do
+		dosym $PKG_BIN "$PREFIX/sbin/${link}" || die
+	done
+	# bash-completion, zsh-completion, fish-completion
+	use bash-completion && {
+		${PKG_BIN} completions bash > rustup.bash || die
+	}
+	use zsh-completion && {
+		${PKG_BIN} completions zsh > rustup.zsh || die
+	}
+	command -v fish && {
+		${PKG_BIN} completions fish > rustup.fish || die
+	}
+
+	local SHARE_DIR="$PREFIX/share/$PN"
+	insinto "${SHARE_DIR}/completions"
+	for completion in rustup.* ; do
 		[[ -f ${completion} ]] && doins ${completion}
 	done
-	doins LICENSE-APACHE
-	doins LICENSE-MIT
+
+	insinto "${SHARE_DIR}"
 	doins "${FILESDIR}"/init-rust.sh
 
-	[[ -f /etc/portage/profile/bashrc/rustup.conf ]] || {
-		insinto "/etc/portage/profile/bashrc"
-		doins "${FILESDIR}/rustup.conf"
-	}
+	insinto "/etc/portage/profile/bashrc"
+	newins "${FILESDIR}/rustup.conf" rustup.conf
 
 }
 
@@ -90,8 +97,8 @@ pkg_postinst() {
 You need to source rustup before you can use it. Do one of the following
 or similar depending on your shell (and then restart your shell):
 
-  echo 'source /usr/share/rustup/init-rust.sh' >> ~/.bashrc
-  echo 'source /usr/share/rustup/init-rust.sh' >> ~/.zshrc
+  echo 'source /usr/local/share/rustup/init-rust.sh' >> ~/.bashrc
+  echo 'source /usr/local/share/rustup/init-rust.sh' >> ~/.zshrc
 
 You may need to run 'rustup default stable' to install the default, or
 You may need to run 'rustup toolchain install stable' to install the default

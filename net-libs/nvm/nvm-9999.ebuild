@@ -45,7 +45,8 @@ src_compile() {
 }
 
 src_install() {
-	local NVM_HOME="/usr/share/nvm"
+	local PREFIX="/usr/local"
+	local NVM_HOME="$PREFIX/share/nvm"
 	exeinto "${NVM_HOME}"
 	doexe nvm-exec
 
