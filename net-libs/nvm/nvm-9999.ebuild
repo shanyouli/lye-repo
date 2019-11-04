@@ -69,7 +69,7 @@ Don't forget to clean up any lines added to your shell's startup script!
 
 For example, from your .bashrc (or .zshrc etc.), delete the line:
 
-source /usr/share/nvm/init-nvm.sh
+	source /usr/local/share/nvm/init-nvm.sh
 "
 }
 
