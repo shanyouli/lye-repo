@@ -21,7 +21,6 @@ RDEPEND="!dev-lang/rust
 		 !virtual/rust"
 
 DEPEND="${RDEPEND}
-		net-misc/wget
 		bash-completion? ( app-shells/bash-completion )
 		zsh-completion? ( app-shells/zsh-completions )"
 
@@ -29,50 +28,47 @@ S="${WORKDIR}"
 
 _binlinks=('cargo' 'rustc' 'rustdoc' 'rust-gdb' 'rust-lldb' 'rls' 'rustfmt' 'cargo-fmt' 'cargo-clippy' 'clippy-driver')
 
-# src_compile() {
-#	insinto "$WORKDIR"
-#	# bash-completion, zsh-completion, fish-completion
-#	use bash-completion && {
-#		./rustup completions bash > bash_completion || die
-#	}
-#	use zsh-completion && {
-#		./rustup completions zsh > zsh_completion || die
-#	}
-#	command -v fish && {
-#		./rustup completions fish > fish_completion || die
-#	}
-# }
+src_unpack() {
+	cp $DISTDIR/${A} ${WORKDIR}/$PN
+	[[ -f ${WORKDIR/$PN} ]] && echo good
+}
 
+src_configure() {
+	chmod +x $PN
 
-src_install() {
-	local PREFIX=/usr/local
-	local PKG_HOME=/usr/local/$PN
-	local PKG_BIN="/usr/local/bin/${PN}"
-
-	einfo "Start the installation rustup"
-
-	into "${PREFIX}"
-	dobin "$DISTDIR/$A" || die
-	mv ${ED}/usr/local/bin/$A ${ED}${PKG_BIN} || die
-	for link in "${_binlinks[@]}"; do
-		dosym $PKG_BIN "$PREFIX/sbin/${link}" || die
-	done
 	# bash-completion, zsh-completion, fish-completion
 	use bash-completion && {
-		${PKG_BIN} completions bash > rustup.bash || die
+		./$PN completions bash > rustup.bash || die
 	}
 	use zsh-completion && {
-		${PKG_BIN} completions zsh > rustup.zsh || die
+		./$PN completions zsh > rustup.zsh || die
 	}
-	command -v fish && {
-		${PKG_BIN} completions fish > rustup.fish || die
-	}
+}
 
-	local SHARE_DIR="$PREFIX/share/$PN"
+src_install() {
+	local PKG_HOME=/usr/share/$PN
+	local PKG_BIN="/usr/bin/${PN}"
+
+	einfo "Start the installation rustup"
+	dobin $PN
+
+	for link in "${_binlinks[@]}"; do
+		dosym $PKG_BIN "/usr/sbin/${link}" || die
+	done
+
+	local SHARE_DIR="/usr/share/$PN"
 	insinto "${SHARE_DIR}/completions"
 	for completion in rustup.* ; do
 		[[ -f ${completion} ]] && doins ${completion}
 	done
+
+	use bash-completion && {
+		local bash_completion_home="/usr/share/bash-completion/completions"
+		dosym ${SHARE_DIR}/completions/rustup.bash ${bash_completion_home}/rustup || die
+	}
+	use zsh-completion && {
+		dosym $SHARE_DIR/completions/rustup.zsh "/usr/share/zsh/site-functions/_rustup" || die
+	}
 
 	insinto "${SHARE_DIR}"
 	doins "${FILESDIR}"/init-rust.sh
@@ -82,23 +78,14 @@ src_install() {
 
 }
 
-# pkg_prerm() {
-#	# Clean rustup temp files
-#	rm -rf "/usr/bin/rustup"
-#	for link in "${_binlinks[@]}"; do
-#		rm -rf  "/usr/sbin/${link}"
-#	done
-#	rm -rf /usr/share/rustup
-# }
-
 pkg_postinst() {
 	ewarn "You may need to set RUSTUP_HOME and CARGO_HOME"
 	ewarn "
 You need to source rustup before you can use it. Do one of the following
 or similar depending on your shell (and then restart your shell):
 
-  echo 'source /usr/local/share/rustup/init-rust.sh' >> ~/.bashrc
-  echo 'source /usr/local/share/rustup/init-rust.sh' >> ~/.zshrc
+  echo 'source /usr/share/rustup/init-rust.sh' >> ~/.bashrc
+  echo 'source /usr/share/rustup/init-rust.sh' >> ~/.zshrc
 
 You may need to run 'rustup default stable' to install the default, or
 You may need to run 'rustup toolchain install stable' to install the default
