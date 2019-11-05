@@ -20,9 +20,8 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="+bash-completion"
 
-RDEPEND="!net-libs/nodejs"
-DEPEND="${RDEPEND}
-		app-shells/bash
+# RDEPEND=""
+DEPEND="app-shells/bash
 		dev-libs/libuv
 		net-dns/c-ares
 		net-libs/http-parser
@@ -45,8 +44,7 @@ src_compile() {
 }
 
 src_install() {
-	local PREFIX="/usr/local"
-	local NVM_HOME="$PREFIX/share/nvm"
+	local NVM_HOME="/usr/share/nvm"
 	exeinto "${NVM_HOME}"
 	doexe nvm-exec
 
@@ -54,13 +52,11 @@ src_install() {
 	doins nvm.sh
 	doins LICENSE.md
 	if use bash-completion ; then
-		doins bash_completion
+		doins bash_completion || die
+		dosym ${NVM_HOME}/bash_completion /usr/share/bash-completion/completions/nvm
 	fi
 	doins "${FILESDIR}"/init-nvm.sh
 	doins "${FILESDIR}"/install-nvm-exec
-
-	insinto "/etc/portage/profile/bashrc"
-	newins "${FILESDIR}/${PN}.conf" ${PN}.conf
 }
 
 pkg_prerm() {
@@ -91,11 +87,5 @@ init-nvm.sh is a convenience script which does the following:
 	ewarn "
 You may need to run 'nvm install lts/*' to install nodejs versions, and
 you may need to run 'nvm use lts/*'
-"
-	ewarn "
-If the installation requires the use of nodejs compiled program,
-please add the following format to /etc/portage/profile/package.bashrc
-
-  'www-client/firefox nodejs.conf'
 "
 }

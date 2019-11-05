@@ -31,18 +31,16 @@ src_compile() {
 }
 
 src_install() {
-	local PREFIX=/usr/local/
-	local DOC_DIR="$PREFIX/share/doc/$PN"
-	local ECT_DIR="$PREFIX/etc"
+	local DOC_DIR="/usr/share/$PN"
+	local ECT_DIR="/usr/share/nodenv/etc"
 
 	insinto $DOC_DIR
 	doins  LICENSE || die
 
-	into "${PREFIX}"
 	dobin bin/* || die
 
-	exeinto "${ECT_DIR}"
-	doexe etc/* || die
+	insinto "${ECT_DIR}"
+	doins -r etc/* || die
 }
 
 pkg_postinst() {

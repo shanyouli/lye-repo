@@ -34,15 +34,13 @@ src_compile() {
 }
 
 src_install() {
-	local PREFIX="/usr/local/"
-	local SHARE_PATH="${PREFIX}/share/node-build"
-	local ETC_PATH="${PREFIX}/etc"
+	local SHARE_PATH="/usr/share/node-build"
+	local ETC_PATH="/usr/share/nodenv/etc"
 	insinto "$SHARE_PATH"
 	doins -r share/node-build/* || die
 
-	exeinto "$ETC_PATH"
-	doexe -r etc/* || die
+	insinto "$ETC_PATH"
+	doins -r etc/* || die
 
-	into "$PREFIX"
 	dobin bin/* || die
 }
