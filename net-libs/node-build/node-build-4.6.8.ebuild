@@ -3,9 +3,10 @@
 
 EAPI=7
 
+inherit vcs-snapshot
 DESCRIPTION="node-build is a command-line utility that makes it easy to install virtually any version of Node"
 HOMEPAGE="https://github.com/nodenv/node-build"
-SRC_URI="https://github.com/nodenv/node-build/archive/v4.6.8.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/nodenv/node-build/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 IUSE="doc" # TODO

@@ -3,9 +3,10 @@
 
 EAPI=7
 
+inherit vcs-snapshot
 DESCRIPTION="Manage multiple NodeJS versions. "
 HOMEPAGE="https://github.com/nodenv/nodenv"
-SRC_URI="https://github.com/nodenv/nodenv/archive/v1.3.1.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/nodenv/nodenv/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 x86"
