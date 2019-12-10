@@ -3,18 +3,12 @@
 
 EAPI=7
 
-inherit git-r3
-EGIT_REPO_URI="https://github.com/nodenv/${PN}.git"
-EGIT_BRANCH='master'
-EGIT_CHECKOUT_DIR="${WORKDIR}/${PN}"
-S="${EGIT_CHECKOUT_DIR}"
-
 DESCRIPTION="Manage multiple NodeJS versions. "
 HOMEPAGE="https://github.com/nodenv/nodenv"
-
+SRC_URI="https://github.com/nodenv/nodenv/archive/v1.3.1.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
-
+KEYWORDS="amd64 x86"
 DEPEND="net-libs/node-build"
 
 src_prepare() {

@@ -3,18 +3,14 @@
 
 EAPI=7
 
-inherit git-r3
-EGIT_REPO_URI="https://github.com/nodenv/${PN}.git"
-EGIT_BRANCH='master'
-EGIT_CHECKOUT_DIR="${WORKDIR}/node-build"
-S="${EGIT_CHECKOUT_DIR}"
-
 DESCRIPTION="node-build is a command-line utility that makes it easy to install virtually any version of Node"
 HOMEPAGE="https://github.com/nodenv/node-build"
-
+SRC_URI="https://github.com/nodenv/node-build/archive/v4.6.8.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
-# KEYWORDS="amd64 x86"
+IUSE="doc" # TODO
+KEYWORDS="amd64 x86"
+KEYWORDS="amd64 x86"
 DEPEND="sys-devel/autoconf
 		>=dev-libs/openssl-1.1.1d-r2
 		dev-util/pkgconfig
