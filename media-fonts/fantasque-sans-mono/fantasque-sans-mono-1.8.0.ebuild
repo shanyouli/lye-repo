@@ -10,7 +10,7 @@ HOMEPAGE="http://openfontlibrary.org/en/font/fantasque-sans-mono"
 SRC_URI="https://github.com/belluzj/fantasque-sans/releases/download/v${PV}/FantasqueSansMono-Normal.zip -> ${P}.zip"
 LICENSE="OFL-1.1"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE=""
 
 DEPEND="app-arch/unzip"
