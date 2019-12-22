@@ -1,3 +1,1 @@
 * Lye-REPO --> gentoo third overlay
-** x11-term
-*** [[https://framagit.org/3/ebuilds/blob/master/x11-terms/xst/xst-9999.ebuild][xst]]
