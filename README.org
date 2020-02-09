@@ -1,1 +1,5 @@
 * Lye-REPO --> gentoo third overlay
+** 如果需要安装 rustup， 请先移除 rustup 目录下的 Manifest 文件后重新执行
+#+begin_src bash
+  repoman manifest
+#+end_src
