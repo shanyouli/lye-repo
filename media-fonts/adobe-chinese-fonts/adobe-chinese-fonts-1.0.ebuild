@@ -12,3 +12,7 @@ KEYWORDS="x86 amd64"
 DEPEND="app-arch/unzip"
 S="${WORKDIR}/Adobe-chinese-fonts-${PV}"
 FONT_SUFFIX="otf"
+src_install() {
+	FONT_CONF="${FILESDIR}/70-adobe-chinese-font.conf"
+	font_src_install
+}
