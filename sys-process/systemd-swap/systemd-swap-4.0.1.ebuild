@@ -11,39 +11,12 @@ LICENSE="GPL3"
 SLOT="0"
 KEYWORDS="amd64 x86"
 # Need use zram in kernel.
-RDEPEND=">=sys-apps/systemd-217
+RDEPEND="sys-apps/systemd
 		app-shells/bash
+		>=sys-apps/util-linux-2.26
 "
 
-# DEPEND="
-	# ${RDEPEND}
-	# virtual/pkgconfig
-	# x11-misc/xclip
-	# x11-misc/dmenu
-	# x11-base/xorg-proto
-	# media-fonts/fantasque-sans-mono
-# "
-
-# src_prepare() {
-#	default
-
-#	sed -i \
-#		-e "/^X11LIB/{s:/usr/X11R6/lib:/usr/$(get_libdir)/X11:}" \
-#		-e '/^STLDFLAGS/s|= .*|= $(LDFLAGS) $(LIBS)|g' \
-#		-e '/^X11INC/{s:/usr/X11R6/include:/usr/include/X11:}' \
-#		config.mk || die
-#	sed -i \
-#		-e '/tic/d' \
-#		Makefile || die
-
-#	sed -i \
-#		-e "s|pkg-config|$(tc-getPKG_CONFIG)|g" \
-#		config.mk || die
-
-#	sed "s/VERSION/${PV}/g" "st.1" || die
-
-#	tc-export CC
-# }
+DEPEND="${RDEPEND}"
 
 src_compile() {
 	emake
@@ -54,7 +27,12 @@ src_install() {
 	systemd_dounit systemd-swap.service
 
 	insinto /etc/systemd
-	doins swap.conf
+	if [[ -f /etc/systemd/swap.conf ]]; then
+		newins /etc/systemd/swap.conf swap.conf
+	else
+		doins swap.conf
+	fi
+
 	local d
 	for d in README* LICENSE ; do
 		[[ -s $d ]] && dodoc $d
