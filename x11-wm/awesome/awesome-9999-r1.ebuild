@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,12 +16,12 @@ IUSE="dbus doc elibc_FreeBSD gnome luajit test"
 RESTRICT="test"
 
 RDEPEND="
-	>=dev-lang/lua-5.1:0
+	>=dev-lang/lua-5.1
 	luajit? ( dev-lang/luajit:2 )
 	dev-libs/glib:2
 	>=dev-libs/libxdg-basedir-1
 	>=dev-lua/lgi-0.8
-	x11-libs/cairo[xcb]
+	x11-libs/cairo
 	x11-libs/gdk-pixbuf:2
 	>=x11-libs/libxcb-1.6[xkb]
 	>=x11-libs/pango-1.19.3[introspection]
