@@ -17,7 +17,7 @@ S="${WORKDIR}/Input-${PV}"
 
 FONT_SUFFIX="ttf"
 src_install() {
-	FONT_CONFIG=()
+	FONT_CONF=()
 	local font_s=()
 	use base && {
 		FONT_CONF+=(

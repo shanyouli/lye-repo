@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit vcs-snapshot
+# inherit vcs-snapshot
 DESCRIPTION="Manage multiple NodeJS versions. "
 HOMEPAGE="https://github.com/nodenv/nodenv"
 SRC_URI="https://github.com/nodenv/nodenv/archive/v${PV}.tar.gz -> ${P}.tar.gz"
