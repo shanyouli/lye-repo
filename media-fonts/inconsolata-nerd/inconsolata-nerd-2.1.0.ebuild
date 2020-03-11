@@ -4,9 +4,9 @@
 EAPI=5
 inherit font
 
-DESCRIPTION="Hasklig - a code font with monospaced ligatures"
-HOMEPAGE="https://github.com/i-tu/Hasklig"
-SRC_URI="${HOMEPAGE}/releases/download/${PV}/${P}.zip -> ${P}.zip"
+DESCRIPTION="Nerd Font"
+HOMEPAGE="https://github.com/ryanoasis/nerd-fonts"
+SRC_URI="${HOMEPAGE}/releases/download/v${PV}/Inconsolata.zip -> ${P}.zip"
 LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS="amd64 x86"
@@ -15,5 +15,4 @@ IUSE=""
 DEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
-FONT_S="${S}"
-FONT_SUFFIX="otf"
+FONT_SUFFIX="ttf"
