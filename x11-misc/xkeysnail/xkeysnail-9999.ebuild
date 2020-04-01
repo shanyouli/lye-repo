@@ -7,8 +7,8 @@ inherit distutils-r1 git-r3 systemd user
 
 DESCRIPTION="Yet another keyboard remapping tool for X environment."
 HOMEPAGE="https://github.com/mooz/${PN}"
-EGIT_REPO_URI="https://github.com/mooz/xkeysnail"
-# EGIT_REPO_URI="https://github.com/nlfiasel/xkeysnail"
+# EGIT_REPO_URI="https://github.com/mooz/xkeysnail"
+EGIT_REPO_URI="https://github.com/nlfiasel/xkeysnail"
 
 
 LICENSE="GPL"
