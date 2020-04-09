@@ -1,12 +1,12 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 inherit desktop multilib  toolchain-funcs
 
 DESCRIPTION="simple terminal implementation for X"
-HOMEPAGE="https://github.com/shanyouli/syl-st"
-SRC_URI="https://github.com/shanyouli/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+HOMEPAGE="https://github.com/shanyouli/${PN}"
+SRC_URI="${HOMEPAGE}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -23,9 +23,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	virtual/pkgconfig
-	x11-misc/dmenu
 	x11-base/xorg-proto
-	media-fonts/fantasque-sans-mono
 "
 
 src_prepare() {
@@ -55,21 +53,9 @@ src_compile() {
 
 src_install() {
 	dobin "st"
-	# dobin st-copyout
-	domenu st.desktop
+	domenu ${FILESDIR}/st.desktop
 	doman st.1
-
-	# dodoc TODO
-
-	make_desktop_entry ${PN} simpleterm utilities-terminal 'System;TerminalEmulator;' ''
-	local ST_DIR=/usr/share/doc/${PN}
 	insinto "${ST_DIR}"
-	if [[ -f README ]]; then
-		doins README
-	elif [[ -f README.md ]]; then
-		doins README.md
-	elif [[ -f Readme.org ]]; then
-		doins Readme.org
-	fi
-	doins LICENSE
+	dodoc README
+	dodoc LICENSE
 }

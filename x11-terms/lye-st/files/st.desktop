@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Suckless Terminal
+Type=Application
+Comment=st - simple terminal
+Exec=st
+TryExec=st
+Icon=utilities-terminal
+Categories=System;TerminalEmulator;
