@@ -4,18 +4,16 @@ EAPI=6
 inherit bash-completion-r1
 DESCRIPTION="The Rust toolchain installer"
 HOMEPAGE="https://www.rust-lang.org/"
-# SRC_URI="${SRC_URI}
-#	amd64? ( https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init -> ${PN} )
 
-# x86? ( https://static.rust-lang.org/rustup/dist/i686-unknown-linux-gnu/rustup-init -> ${PN} )"
 RESTRICT="network-sandbox"
 LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="+bash-completion zsh-completion"
-SRC_URI="${SRC_URI}
-		amd64? ( https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init -> rustup_64 )
-		x86? ( https://static.rust-lang.org/rustup/dist/i686-unknown-linux-gnu/rustup-init -> rustup_86 )"
+# https://static.rust-lang.org/rustup/archive/{rustup-version}/{target-triple}/rustup-init[.exe]
+SRC_URI="
+	amd64? ( https://static.rust-lang.org/rustup/archive/${PV}/x86_64-unknown-linux-gnu/rustup-init -> ${P}_64 )
+	x86? ( https://static.rust-lang.org/rustup/archive/${PV}/i686-unknown-linux-gnu/rustup-init -> ${P}_86 )"
 RDEPEND="!dev-lang/rust
 		 !virtual/cargo
 		 !virtual/rust"
@@ -30,7 +28,7 @@ _binlinks=('cargo' 'rustc' 'rustdoc' 'rust-gdb' 'rust-lldb' 'rls' 'rustfmt' 'car
 
 src_unpack() {
 	cp $DISTDIR/${A} ${WORKDIR}/$PN
-	[[ -f ${WORKDIR/$PN} ]] && echo good
+	[[ -f ${WORKDIR}/${PN} ]] || die "Not found ${PN}"
 }
 
 src_configure() {
