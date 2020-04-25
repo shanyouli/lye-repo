@@ -2,10 +2,11 @@
   <repo priority="50" quality="experimental">
     <name>lye-repo</name>
     <description>Lye OverLay</description>
-    <homepage>syl</homepage>
+    <homepage>https://github.com/shanyouli/lye-repo</homepage>
     <owner>
       <email>shanyouli6@gmail.com</email>
       <name>shanyouli</name>
     </owner>
+    <source type="git">https://github.com/shanyouli/lye-repo.git</source>
   </repo>
 </repositories>
