@@ -1,0 +1,11 @@
+<repositories encoding="unicode" version="1.1">
+  <repo priority="50" quality="experimental">
+    <name>lye-repo</name>
+    <description>Lye OverLay</description>
+    <homepage>syl</homepage>
+    <owner>
+      <email>shanyouli6@gmail.com</email>
+      <name>shanyouli</name>
+    </owner>
+  </repo>
+</repositories>
