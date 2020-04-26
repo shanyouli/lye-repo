@@ -1,5 +1,24 @@
 * Lye-REPO --> gentoo third overlay
-** 如果需要安装 rustup， 请先移除 rustup 目录下的 Manifest 文件后重新执行
-#+begin_src bash
-  repoman manifest
-#+end_src
+* 用法
+** 使用 layman 管理
+#+BEGIN_SRC bash
+layman -o https://github.com/shanyouli/lye-repo/raw/master/sly.xml -f -a lye-repo
+#+END_SRC
+** 手动管理
+- 如果需要自己编写 ebuild， 推荐这种方法
+*** git 下载 lye-repo
+#+BEGIN_SRC bash
+git clone --depth 1 git@github.com:shanyouli/lye-repo.git my-repos
+#+END_SRC
+*** 创建并配置 lye-repo
+#+BEGIN_SRC conf
+vim /etc/portage/repos.conf/lye-repo.conf
+[lye-repo]
+location = /path/to/my-repos
+#+END_SRC
+*** 更新
+#+BEGIN_SRC bash
+cd my-repos && {
+    git pull
+}
+#+END_SRC

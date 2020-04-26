@@ -11,6 +11,7 @@ if [[ ${PV##*.} = 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/emacs-mirror/emacs.git"
 	EGIT_BRANCH="emacs-27"
 	EGIT_CHECKOUT_DIR="${WORKDIR}/emacs"
+	EGIT_CLONE_TYPE="shallow"
 	S="${EGIT_CHECKOUT_DIR}"
 else
 	SRC_URI="https://dev.gentoo.org/~ulm/distfiles/${P}.tar.xz
