@@ -6,6 +6,7 @@ inherit git-r3 meson
 DESCRIPTION="Paper icon theme"
 HOMEPAGE="https://snwh.org/paper"
 EGIT_REPO_URI="https://github.com/snwh/paper-icon-theme.git"
+EGIT_CLONE_TYPE="shallow"
 LICENSE="CC-BY-SA-4.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
