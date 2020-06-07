@@ -1,6 +1,5 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-
 
 EAPI=7
 
@@ -9,7 +8,7 @@ EGIT_REPO_URI="https://github.com/nvm-sh/nvm.git"
 EGIT_BRANCH="master"
 EGIT_CHECKOUT_DIR="${WORKDIR}/nvm"
 S="${EGIT_CHECKOUT_DIR}"
-
+EGIT_CLONE_TYPE="shallow"
 DESCRIPTION="A simple bash script to manage multiple active node.js versions"
 HOMEPAGE="https://github.com/nvm-sh/nvm"
 
@@ -56,7 +55,6 @@ src_install() {
 		dosym ${NVM_HOME}/bash_completion /usr/share/bash-completion/completions/nvm
 	fi
 	doins "${FILESDIR}"/init-nvm.sh
-	doins "${FILESDIR}"/install-nvm-exec
 }
 
 pkg_prerm() {
@@ -65,7 +63,8 @@ Don't forget to clean up any lines added to your shell's startup script!
 
 For example, from your .bashrc (or .zshrc etc.), delete the line:
 
-	source /usr/local/share/nvm/init-nvm.sh
+	source /usr/share/nvm/init-nvm.sh
+	_install_nvm_exec
 "
 }
 
@@ -76,8 +75,8 @@ pkg_postinst() {
 You need to source nvm before you can use it. Do one of the following
 or similar depending on your shell (and then restart your shell):
 
-  echo 'source /usr/share/nvm/init-nvm.sh' >> ~/.bashrc
-  echo 'source /usr/share/nvm/init-nvm.sh' >> ~/.zshrc
+  echo 'source /usr/share/nvm/init-nvm.sh && _install_nvm_exec' >> ~/.bashrc
+  echo 'source /usr/share/nvm/init-nvm.sh && _install_nvm_exec' >> ~/.zshrc
 
 You can now install node.js versions (e.g. nvm install 10) and
 activate them (e.g. nvm use 10).
