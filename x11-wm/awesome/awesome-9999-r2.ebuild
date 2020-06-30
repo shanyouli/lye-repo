@@ -8,7 +8,7 @@ inherit cmake-utils eutils git-r3 pax-utils
 DESCRIPTION="A dynamic floating and tiling window manager"
 HOMEPAGE="https://awesomewm.org/"
 EGIT_REPO_URI="https://github.com/awesomeWM/${PN}.git"
-
+EGIT_CLONE_TYPE="shallow"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
