@@ -7,20 +7,26 @@ inherit autotools elisp-common flag-o-matic readme.gentoo-r1
 
 if [[ ${PV##*.} = 9999 ]]; then
 	inherit git-r3
-	EGIT_REPO_URI="https://git.savannah.gnu.org/git/emacs.git"
+	EGIT_REPO_URI="https://github.com/emacs-mirror/emacs.git"
+	# EGIT_REPO_URI="https://git.savannah.gnu.org/git/emacs.git"
 	EGIT_BRANCH="master"
 	EGIT_CHECKOUT_DIR="${WORKDIR}/emacs"
 	S="${EGIT_CHECKOUT_DIR}"
+	EGIT_CLONE_TYPE="shallow"
 else
-	SRC_URI="https://dev.gentoo.org/~ulm/distfiles/${P}.tar.xz
-		mirror://gnu-alpha/emacs/pretest/${P}.tar.xz"
-	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos"
 	# FULL_VERSION keeps the full version number, which is needed in
 	# order to determine some path information correctly for copy/move
 	# operations later on
 	FULL_VERSION="${PV%%_*}"
+	SRC_URI="mirror://gnu/emacs/${P}.tar.xz"
 	S="${WORKDIR}/emacs-${FULL_VERSION}"
-	[[ ${FULL_VERSION} != ${PV} ]] && S="${WORKDIR}/emacs"
+	if [[ ${PV} == *_pre* ]]; then
+		SRC_URI="https://dev.gentoo.org/~ulm/distfiles/${P}.tar.xz"
+		S="${WORKDIR}/emacs"
+	elif [[ ${PV//[0-9]} != "." ]]; then
+		SRC_URI="mirror://gnu-alpha/emacs/pretest/${PN}-${PV/_/-}.tar.xz"
+	fi
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos"
 fi
 
 DESCRIPTION="The extensible, customizable, self-documenting real-time display editor"
@@ -152,9 +158,7 @@ src_configure() {
 	strip-flags
 	filter-flags -pie					#526948
 
-	if use sh; then
-		replace-flags "-O[1-9]" -O0		#262359
-	elif use ia64; then
+	if use ia64; then
 		replace-flags "-O[2-9]" -O1		#325373
 	else
 		replace-flags "-O[3-9]" -O2
